@@ -49,72 +49,72 @@ function ensureStyles() {
 
 export function mountExperiment(root) {
   ensureStyles();
-  root.innerHTML = `&lt;div class="ballistics-module"&gt;&lt;div class="page"&gt;
-&lt;h1&gt;Physics Lab — Движение тела&lt;/h1&gt;
-&lt;div class="lab-layout"&gt;
-&lt;aside class="panel"&gt;
-&lt;h2&gt;Параметры&lt;/h2&gt;
+  root.innerHTML = `<div class="ballistics-module"><div class="page">
+<h1>Physics Lab — Движение тела</h1>
+<div class="lab-layout">
+<aside class="panel">
+<h2>Параметры</h2>
 
-&lt;div class="control"&gt;
-&lt;div class="control-head"&gt;&lt;span&gt;x₀, м&lt;/span&gt;&lt;/div&gt;
-&lt;input id="x0" type="number" value="0" step="0.1"&gt;
-&lt;/div&gt;
+<div class="control">
+<div class="control-head"><span>x₀, м</span></div>
+<input id="x0" type="number" value="0" step="0.1">
+</div>
 
-&lt;div class="control"&gt;
-&lt;div class="control-head"&gt;&lt;span&gt;y₀, м&lt;/span&gt;&lt;/div&gt;
-&lt;input id="y0" type="number" value="0" step="0.1"&gt;
-&lt;/div&gt;
+<div class="control">
+<div class="control-head"><span>y₀, м</span></div>
+<input id="y0" type="number" value="0" step="0.1">
+</div>
 
-&lt;div class="control"&gt;
-&lt;div class="control-head"&gt;&lt;span&gt;v₀, м/с&lt;/span&gt;&lt;span class="value" id="v0Val"&gt;10&lt;/span&gt;&lt;/div&gt;
-&lt;input id="v0" type="range" min="0" max="30" step="0.1" value="10"&gt;
-&lt;/div&gt;
+<div class="control">
+<div class="control-head"><span>v₀, м/с</span><span class="value" id="v0Val">10</span></div>
+<input id="v0" type="range" min="0" max="30" step="0.1" value="10">
+</div>
 
-&lt;div class="control"&gt;
-&lt;div class="control-head"&gt;&lt;span&gt;α — угол v₀&lt;/span&gt;&lt;span class="value" id="alphaVal"&gt;45°&lt;/span&gt;&lt;/div&gt;
-&lt;input id="alpha" type="range" min="0" max="360" step="1" value="45"&gt;
-&lt;/div&gt;
+<div class="control">
+<div class="control-head"><span>α — угол v₀</span><span class="value" id="alphaVal">45°</span></div>
+<input id="alpha" type="range" min="0" max="360" step="1" value="45">
+</div>
 
-&lt;div class="control"&gt;
-&lt;div class="control-head"&gt;&lt;span&gt;g, м/с²&lt;/span&gt;&lt;span class="value" id="gVal"&gt;9.8&lt;/span&gt;&lt;/div&gt;
-&lt;input id="g" type="range" min="0" max="20" step="0.1" value="9.8"&gt;
-&lt;/div&gt;
+<div class="control">
+<div class="control-head"><span>g, м/с²</span><span class="value" id="gVal">9.8</span></div>
+<input id="g" type="range" min="0" max="20" step="0.1" value="9.8">
+</div>
 
-&lt;div class="control"&gt;
-&lt;div class="control-head"&gt;&lt;span&gt;β — направление g&lt;/span&gt;&lt;span class="value" id="betaVal"&gt;270°&lt;/span&gt;&lt;/div&gt;
-&lt;input id="beta" type="range" min="0" max="360" step="1" value="270"&gt;
-&lt;/div&gt;
+<div class="control">
+<div class="control-head"><span>β — направление g</span><span class="value" id="betaVal">270°</span></div>
+<input id="beta" type="range" min="0" max="360" step="1" value="270">
+</div>
 
-&lt;div class="buttons"&gt;
-&lt;button id="startBtn"&gt;▶ Запустить&lt;/button&gt;
-&lt;button id="motionResetBtn" class="secondary"&gt;Сброс движения&lt;/button&gt;
-&lt;button id="settingsResetBtn" class="secondary"&gt;Сброс настроек&lt;/button&gt;
-&lt;/div&gt;
+<div class="buttons">
+<button id="startBtn">▶ Запустить</button>
+<button id="motionResetBtn" class="secondary">Сброс движения</button>
+<button id="settingsResetBtn" class="secondary">Сброс настроек</button>
+</div>
 
-&lt;div class="status" id="status"&gt;t = 0.00 с&lt;/div&gt;
-&lt;/aside&gt;
+<div class="status" id="status">t = 0.00 с</div>
+</aside>
 
-&lt;main class="graph-card"&gt;
-&lt;div class="canvas-wrap" id="canvasWrap"&gt;
-&lt;canvas id="canvas"&gt;&lt;/canvas&gt;
-&lt;/div&gt;
+<main class="graph-card">
+<div class="canvas-wrap" id="canvasWrap">
+<canvas id="canvas"></canvas>
+</div>
 
-&lt;div class="formulas"&gt;
-&lt;b&gt;Уравнения движения&lt;/b&gt;&lt;br&gt;
-a⃗ = g⃗&lt;br&gt;
-v⃗(t) = v⃗₀ + g⃗t&lt;br&gt;
-r⃗(t) = r⃗₀ + v⃗₀t + ½g⃗t²&lt;br&gt;
-vₓ = v₀ cos α + g cos β · t&lt;br&gt;
-vᵧ = v₀ sin α + g sin β · t&lt;br&gt;
-x = x₀ + v₀ cos α · t + ½g cos β · t²&lt;br&gt;
+<div class="formulas">
+<b>Уравнения движения</b><br>
+a⃗ = g⃗<br>
+v⃗(t) = v⃗₀ + g⃗t<br>
+r⃗(t) = r⃗₀ + v⃗₀t + ½g⃗t²<br>
+vₓ = v₀ cos α + g cos β · t<br>
+vᵧ = v₀ sin α + g sin β · t<br>
+x = x₀ + v₀ cos α · t + ½g cos β · t²<br>
 y = y₀ + v₀ sin α · t + ½g sin β · t²
-&lt;/div&gt;
-&lt;/main&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;`;
+</div>
+</main>
+</div>
+</div></div>`;
 
 "use strict";
-const byId = id =&gt; root.querySelector("#" + id);
+const byId = id => root.querySelector("#" + id);
 
 const canvas=byId("canvas");
 const ctx=canvas.getContext("2d");
@@ -177,27 +177,27 @@ const A=.5*p.g*Math.sin(p.beta);
 const B=p.v0*Math.sin(p.alpha);
 const C=p.y0;
 
-if(Math.abs(A)&lt;1e-10){
-if(Math.abs(B)&lt;1e-10)return Infinity;
+if(Math.abs(A)<1e-10){
+if(Math.abs(B)<1e-10)return Infinity;
 const t=-C/B;
-return t&gt;1e-6?t:Infinity;
+return t>1e-6?t:Infinity;
 }
 
 const D=B*B-4*A*C;
-if(D&lt;0)return Infinity;
+if(D<0)return Infinity;
 
 const s=Math.sqrt(D);
 const r1=(-B-s)/(2*A);
 const r2=(-B+s)/(2*A);
-const roots=[r1,r2].filter(x=&gt;x&gt;1e-6).sort((a,b)=&gt;a-b);
+const roots=[r1,r2].filter(x=>x>1e-6).sort((a,b)=>a-b);
 return roots.length?roots[0]:Infinity;
 }
 
 function niceStep(raw){
-if(!Number.isFinite(raw)||raw&lt;=0)return 1;
+if(!Number.isFinite(raw)||raw<=0)return 1;
 const power=Math.pow(10,Math.floor(Math.log10(raw)));
 const n=raw/power;
-return(n&lt;=1?1:n&lt;=2?2:n&lt;=5?5:10)*power;
+return(n<=1?1:n<=2?2:n<=5?5:10)*power;
 }
 
 function calculateTrajectory(){
@@ -205,7 +205,7 @@ groundTime=timeToGround();
 const end=Math.min(groundTime===Infinity?8:groundTime,30);
 const n=360;
 trajectory=[];
-for(let i=0;i&lt;=n;i++)trajectory.push(position(end*i/n));
+for(let i=0;i<=n;i++)trajectory.push(position(end*i/n));
 updateView();
 }
 
@@ -215,10 +215,10 @@ const h=Math.max(1,wrap.clientHeight);
 const p=getParams();
 const pts=trajectory.length?trajectory:[position(0)];
 
-let minX=Math.min(...pts.map(q=&gt;q.x),p.x0);
-let maxX=Math.max(...pts.map(q=&gt;q.x),p.x0);
-let minY=Math.min(...pts.map(q=&gt;q.y),p.y0,0);
-let maxY=Math.max(...pts.map(q=&gt;q.y),p.y0,0);
+let minX=Math.min(...pts.map(q=>q.x),p.x0);
+let maxX=Math.max(...pts.map(q=>q.x),p.x0);
+let minY=Math.min(...pts.map(q=>q.y),p.y0,0);
+let maxY=Math.max(...pts.map(q=>q.y),p.y0,0);
 
 const dx=Math.max(maxX-minX,1);
 const dy=Math.max(maxY-minY,1);
@@ -232,7 +232,7 @@ const aspect=w/h;
 let rx=maxX-minX;
 let ry=maxY-minY;
 
-if(rx/ry&lt;aspect)maxX=minX+ry*aspect;
+if(rx/ry<aspect)maxX=minX+ry*aspect;
 else minY=maxY-rx/aspect;
 
 view={minX,maxX,minY,maxY,w,h};
@@ -247,9 +247,9 @@ return view.h-(y-view.minY)/(view.maxY-view.minY)*view.h;
 }
 
 function fmt(v){
-if(Math.abs(v)&lt;1e-9)return"0";
-if(Math.abs(v)&gt;=100)return v.toFixed(0);
-if(Math.abs(v)&gt;=10)return v.toFixed(1).replace(".0","");
+if(Math.abs(v)<1e-9)return"0";
+if(Math.abs(v)>=100)return v.toFixed(0);
+if(Math.abs(v)>=10)return v.toFixed(1).replace(".0","");
 return v.toFixed(2).replace(/0+$/,"").replace(/\.$/,"");
 }
 
@@ -263,20 +263,20 @@ ctx.strokeStyle="#e9ecf3";
 ctx.fillStyle="#73798b";
 ctx.font="12px Arial";
 
-for(let x=Math.ceil(view.minX/xStep)*xStep;x&lt;=view.maxX+1e-9;x+=xStep){
+for(let x=Math.ceil(view.minX/xStep)*xStep;x<=view.maxX+1e-9;x+=xStep){
 const X=sx(x);
 ctx.beginPath();ctx.moveTo(X,0);ctx.lineTo(X,view.h);ctx.stroke();
-if(Math.abs(x)&gt;1e-9){
+if(Math.abs(x)>1e-9){
 ctx.textAlign="center";ctx.textBaseline="top";
 const y0=sy(0);
 ctx.fillText(fmt(x),X,Math.max(2,Math.min(view.h-15,y0+7)));
 }
 }
 
-for(let y=Math.ceil(view.minY/yStep)*yStep;y&lt;=view.maxY+1e-9;y+=yStep){
+for(let y=Math.ceil(view.minY/yStep)*yStep;y<=view.maxY+1e-9;y+=yStep){
 const Y=sy(y);
 ctx.beginPath();ctx.moveTo(0,Y);ctx.lineTo(view.w,Y);ctx.stroke();
-if(Math.abs(y)&gt;1e-9){
+if(Math.abs(y)>1e-9){
 ctx.textAlign="right";ctx.textBaseline="middle";
 const x0=sx(0);
 ctx.fillText(fmt(y),Math.max(28,x0-8),Y);
@@ -286,12 +286,12 @@ ctx.fillText(fmt(y),Math.max(28,x0-8),Y);
 ctx.strokeStyle="#555b6e";
 ctx.lineWidth=1.5;
 
-if(view.minY&lt;=0&amp;&amp;view.maxY&gt;=0){
+if(view.minY<=0&&view.maxY>=0){
 const Y=sy(0);
 ctx.beginPath();ctx.moveTo(0,Y);ctx.lineTo(view.w,Y);ctx.stroke();
 }
 
-if(view.minX&lt;=0&amp;&amp;view.maxX&gt;=0){
+if(view.minX<=0&&view.maxX>=0){
 const X=sx(0);
 ctx.beginPath();ctx.moveTo(X,0);ctx.lineTo(X,view.h);ctx.stroke();
 }
@@ -320,11 +320,11 @@ ctx.closePath();ctx.fill();
 }
 
 function drawTrajectory(){
-if(trajectory.length&lt;2)return;
+if(trajectory.length<2)return;
 ctx.save();
 ctx.beginPath();
 ctx.moveTo(sx(trajectory[0].x),sy(trajectory[0].y));
-for(let i=1;i&lt;trajectory.length;i++){
+for(let i=1;i<trajectory.length;i++){
 ctx.lineTo(sx(trajectory[i].x),sy(trajectory[i].y));
 }
 ctx.strokeStyle="#5964df";
@@ -381,7 +381,7 @@ ctx.restore();
 
 const v=velocity(ct);
 const mag=Math.hypot(v.x,v.y);
-if(mag&gt;1e-8){
+if(mag>1e-8){
 ctx.save();
 ctx.strokeStyle="#b35c9e";
 ctx.fillStyle="#b35c9e";
@@ -445,7 +445,7 @@ time+=dt;
 
 const end=groundTime===Infinity?8:groundTime;
 
-if(time&gt;=end){
+if(time>=end){
 time=end;
 running=false;
 E.start.textContent="▶ Запустить";
@@ -453,7 +453,7 @@ E.start.textContent="▶ Запустить";
 
 draw();
 
-if(running&amp;&amp;!disposed)rafId=rafId=requestAnimationFrame(animate);
+if(running&&!disposed)rafId=rafId=requestAnimationFrame(animate);
 }
 
 function start(){
@@ -466,7 +466,7 @@ return;
 calculateTrajectory();
 
 const end=groundTime===Infinity?8:groundTime;
-if(time&gt;=end-1e-5)time=0;
+if(time>=end-1e-5)time=0;
 
 running=true;
 lastFrame=0;
@@ -481,8 +481,8 @@ E.gVal.textContent=(+E.g.value).toFixed(1);
 E.betaVal.textContent=E.beta.value+"°";
 }
 
-[E.x0,E.y0,E.v0,E.alpha,E.g,E.beta].forEach(el=&gt;{
-el.addEventListener("input",()=&gt;{
+[E.x0,E.y0,E.v0,E.alpha,E.g,E.beta].forEach(el=>{
+el.addEventListener("input",()=>{
 if(el===E.v0||el===E.alpha||el===E.g||el===E.beta)updateLabels();
 if(!running){
 time=0;
@@ -494,13 +494,13 @@ draw();
 
 E.start.addEventListener("click",start);
 
-byId("motionResetBtn").addEventListener("click",()=&gt;{
+byId("motionResetBtn").addEventListener("click",()=>{
 running=false;time=0;lastFrame=0;
 E.start.textContent="▶ Запустить";
 calculateTrajectory();draw();
 });
 
-byId("settingsResetBtn").addEventListener("click",()=&gt;{
+byId("settingsResetBtn").addEventListener("click",()=>{
 running=false;time=0;lastFrame=0;
 E.x0.value=0;E.y0.value=0;E.v0.value=10;
 E.alpha.value=45;E.g.value=9.8;E.beta.value=270;
@@ -510,11 +510,11 @@ calculateTrajectory();draw();
 });
 
 let resizeObserver=null;
-const onResize=()=&gt;resizeCanvas();
-const onOrientation=()=&gt;setTimeout(resizeCanvas,150);
+const onResize=()=>resizeCanvas();
+const onOrientation=()=>setTimeout(resizeCanvas,150);
 
 if(window.ResizeObserver){
-resizeObserver=new ResizeObserver(()=&gt;resizeCanvas());
+resizeObserver=new ResizeObserver(()=>resizeCanvas());
 resizeObserver.observe(wrap);
 }else{
 window.addEventListener("resize",onResize);
