@@ -1,4 +1,4 @@
-document.querySelectorAll(".experiment-home-fab, .sidebar-home, #homeButton").forEach(el =&gt; el.remove());
+document.querySelectorAll(".experiment-home-fab, .sidebar-home, #homeButton").forEach(el => el.remove());
 
 const catalog = [
   {
@@ -51,7 +51,7 @@ let currentSectionId = null;
 
 function findExperiment(id){
   for(const section of catalog){
-    const exp = section.experiments.find(e =&gt; e.id === id);
+    const exp = section.experiments.find(e => e.id === id);
     if(exp) return { section, exp };
   }
   return null;
@@ -69,11 +69,11 @@ function buildNavigation(){
     button.type = "button";
     button.className = "nav-section-button";
     button.innerHTML = `
-      &lt;span class="nav-section-left"&gt;
-        &lt;span class="nav-section-icon"&gt;${section.icon}&lt;/span&gt;
-        &lt;span&gt;${section.title}&lt;/span&gt;
-      &lt;/span&gt;
-      &lt;span class="nav-chevron"&gt;›&lt;/span&gt;
+      <span class="nav-section-left">
+        <span class="nav-section-icon">${section.icon}</span>
+        <span>${section.title}</span>
+      </span>
+      <span class="nav-chevron">›</span>
     `;
 
     const expWrap = document.createElement("div");
@@ -89,10 +89,10 @@ function buildNavigation(){
         expButton.className = "nav-experiment";
         expButton.dataset.experimentId = exp.id;
         expButton.innerHTML = `
-          &lt;span class="nav-experiment-title"&gt;${exp.title}&lt;/span&gt;
-          &lt;span class="nav-experiment-subtitle"&gt;${exp.subtitle || ""}&lt;/span&gt;
+          <span class="nav-experiment-title">${exp.title}</span>
+          <span class="nav-experiment-subtitle">${exp.subtitle || ""}</span>
         `;
-        expButton.addEventListener("click", () =&gt; openExperiment(exp.id));
+        expButton.addEventListener("click", () => openExperiment(exp.id));
         inner.appendChild(expButton);
       }
     } else {
@@ -102,11 +102,11 @@ function buildNavigation(){
       inner.appendChild(empty);
     }
 
-    button.addEventListener("click", () =&gt; {
+    button.addEventListener("click", () => {
       const willOpen = !wrap.classList.contains("open");
 
-      document.querySelectorAll(".nav-section").forEach(sectionEl =&gt; {
-        if(sectionEl !== wrap &amp;&amp; !sectionEl.classList.contains("active-section")){
+      document.querySelectorAll(".nav-section").forEach(sectionEl => {
+        if(sectionEl !== wrap && !sectionEl.classList.contains("active-section")){
           sectionEl.classList.remove("open");
         }
       });
@@ -121,7 +121,7 @@ function buildNavigation(){
 }
 
 function syncActiveNavigation(){
-  document.querySelectorAll(".nav-section").forEach(sectionEl =&gt; {
+  document.querySelectorAll(".nav-section").forEach(sectionEl => {
     const isActiveSection = sectionEl.dataset.sectionId === currentSectionId;
     sectionEl.classList.toggle("active-section", isActiveSection);
 
@@ -130,7 +130,7 @@ function syncActiveNavigation(){
     }
   });
 
-  document.querySelectorAll(".nav-experiment").forEach(button =&gt; {
+  document.querySelectorAll(".nav-experiment").forEach(button => {
     button.classList.toggle("active", button.dataset.experimentId === currentExperimentId);
   });
 }
@@ -138,7 +138,7 @@ function syncActiveNavigation(){
 function showSidebar(){
   document.body.classList.add("sidebar-visible");
 
-  if(window.innerWidth &gt;= 1050){
+  if(window.innerWidth >= 1050){
     appShell.classList.remove("menu-collapsed");
     syncActiveNavigation();
   }else{
@@ -152,7 +152,7 @@ function showSidebar(){
 function hideSidebar(){
   document.body.classList.remove("sidebar-visible");
 
-  if(window.innerWidth &gt;= 1050){
+  if(window.innerWidth >= 1050){
     appShell.classList.add("menu-collapsed");
   }else{
     sidebar.classList.remove("open");
@@ -179,8 +179,8 @@ function openHome(){
   backdrop.classList.remove("open");
   menuButton?.setAttribute("aria-expanded", "false");
 
-  document.querySelectorAll(".nav-experiment").forEach(el =&gt; el.classList.remove("active"));
-  document.querySelectorAll(".nav-section").forEach(el =&gt; {
+  document.querySelectorAll(".nav-experiment").forEach(el => el.classList.remove("active"));
+  document.querySelectorAll(".nav-section").forEach(el => {
     el.classList.remove("active-section", "open");
   });
 
@@ -227,11 +227,11 @@ async function openExperiment(id){
   }catch(error){
     console.error(error);
     mount.innerHTML = `
-      &lt;div class="placeholder"&gt;
-        &lt;div class="placeholder-label"&gt;${found.section.title}&lt;/div&gt;
-        &lt;h1&gt;${found.exp.title}&lt;/h1&gt;
-        &lt;p&gt;Эксперимент пока не подключён или файл не найден.&lt;/p&gt;
-      &lt;/div&gt;
+      <div class="placeholder">
+        <div class="placeholder-label">${found.section.title}</div>
+        <h1>${found.exp.title}</h1>
+        <p>Эксперимент пока не подключён или файл не найден.</p>
+      </div>
     `;
   }
 
@@ -250,7 +250,7 @@ brandHome?.addEventListener("click", openHome);
 buildNavigation();
 
 function openInitialMenu(){
-  if(window.innerWidth &lt; 1050 &amp;&amp; !location.hash){
+  if(window.innerWidth < 1050 && !location.hash){
     sidebar.classList.add("open");
     backdrop.classList.add("open");
     menuButton?.setAttribute("aria-expanded", "true");
@@ -260,7 +260,7 @@ function openInitialMenu(){
 openInitialMenu();
 
 const initialId = location.hash.replace("#", "");
-if(initialId &amp;&amp; findExperiment(initialId)){
+if(initialId && findExperiment(initialId)){
   openExperiment(initialId);
 }
 
