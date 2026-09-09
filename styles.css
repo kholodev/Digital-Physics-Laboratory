@@ -541,6 +541,7 @@ button{-webkit-tap-highlight-color:transparent}
 }
 
 .brand-mark,.sidebar-brand-mark{display:none !important;}
+
 /* =========================================================
    APPROVED UI CONTRACT — DO NOT OVERRIDE BELOW THIS LINE
    ========================================================= */
@@ -555,7 +556,7 @@ html,body{
   background-attachment:fixed !important;
 }
 
-/* Same φ logo on home and in contextual menu; peach corner restored */
+/* Same φ logo everywhere */
 .phi-logo{
   flex:0 0 38px !important;
   width:38px !important;
@@ -583,7 +584,7 @@ html,body{
   box-shadow:0 8px 18px rgba(89,100,223,.22) !important;
 }
 
-/* Never show the rejected "home" button or right-side experiment logo */
+/* Rejected legacy controls stay hidden */
 .sidebar-home,
 #homeButton,
 .experiment-home-fab,
@@ -594,21 +595,56 @@ html,body{
   pointer-events:none !important;
 }
 
-/* Contextual menu brand is the only home affordance inside sidebar */
 .sidebar-brand-home{
   display:flex !important;
 }
 
-/* Experiment mode: top home bar disappears */
+/* Home topbar */
+.app-shell:not(.experiment-mode) .floating-burger{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+.app-shell:not(.experiment-mode) .topbar{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+}
+
+.app-shell:not(.experiment-mode) .topbar .menu-button{
+  display:grid !important;
+  position:static !important;
+  flex:0 0 44px !important;
+  width:44px !important;
+  height:44px !important;
+  margin:0 !important;
+  transform:none !important;
+}
+
+.app-shell:not(.experiment-mode) .topbar .brand{
+  position:static !important;
+  margin:0 !important;
+  transform:none !important;
+}
+
+/* Experiment mode */
 .app-shell.experiment-mode .topbar{
   display:none !important;
 }
 
-/* Experiment burger = ONLY three lines; no tile, no circle, no plaque */
+.app-shell.experiment-mode .experiment-stage{
+  position:relative !important;
+  padding-top:42px !important;
+}
+
+/* Experiment burger: three lines only */
 .app-shell.experiment-mode .floating-burger{
   display:flex !important;
-  position:absolute !important;
+  position:fixed !important;
   z-index:80 !important;
+  left:32px !important;
+  top:24px !important;
   width:40px !important;
   height:40px !important;
   margin:0 !important;
@@ -622,7 +658,9 @@ html,body{
   -webkit-backdrop-filter:none !important;
   filter:none !important;
   align-items:center !important;
-  justify-content:center !important;
+  justify-content:flex-start !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
   transform:none !important;
 }
 
@@ -634,8 +672,24 @@ html,body{
   display:none !important;
 }
 
-.app-shell.experiment-mode .app-shell.experiment-mode .floating-burger-inner > span{
+.app-shell.experiment-mode .floating-burger-inner{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  gap:5px !important;
+  width:24px !important;
+  height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+.app-shell.experiment-mode .floating-burger-inner > span{
   display:block !important;
+  position:static !important;
   width:21px !important;
   height:2px !important;
   min-height:2px !important;
@@ -650,107 +704,20 @@ html,body{
   transform:none !important;
 }
 
-/* The experiment card is the positioning context: burger is visually sewn into it */
-.app-shell.experiment-mode .experiment-stage{
-  position:relative !important;
-  padding-top:42px !important;
-}
-
-/* Desktop/tablet: visible burger edge matches experiment text edge */
-.app-shell.experiment-mode .floating-burger{
-  left:clamp(24px,5vw,54px) !important;
-  top:10px !important;
-}
-
-/* Mobile approved alignment from the accepted preview */
+/* Mobile experiment position */
 @media(max-width:700px){
   .app-shell.experiment-mode .experiment-stage{
     padding-top:30px !important;
   }
 
   .app-shell.experiment-mode .floating-burger{
+    display:flex !important;
     left:30.5px !important;
     top:4px !important;
   }
 }
 
-/* Once contextual menu opens, experiment burger disappears completely */
-body.sidebar-visible .app-shell.experiment-mode .floating-burger{
-  display:none !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-
-/* =========================================================
-   GITHUB/DESKTOP FINAL FIX — source of truth
-   ========================================================= */
-
-/* Home page: burger is a normal separate control INSIDE the topbar,
-   immediately before the brand. It must never float over the φ logo. */
-@media(min-width:701px){
-  .app-shell:not(.experiment-mode) .floating-burger{
-    display:none !important;
-    visibility:hidden !important;
-    pointer-events:none !important;
-  }
-
-  .app-shell:not(.experiment-mode) .topbar{
-    display:flex !important;
-    align-items:center !important;
-    gap:12px !important;
-  }
-
-  .app-shell:not(.experiment-mode) .topbar .menu-button{
-    display:grid !important;
-    position:static !important;
-    flex:0 0 44px !important;
-    width:44px !important;
-    height:44px !important;
-    margin:0 !important;
-    transform:none !important;
-  }
-
-  .app-shell:not(.experiment-mode) .topbar .brand{
-    position:static !important;
-    margin:0 !important;
-    transform:none !important;
-  }
-}
-
-/* Experiment desktop/tablet: the contextual-menu trigger has a guaranteed
-   visible left inset. It is ONLY the three lines, never a tile/plaque. */
-@media(min-width:701px){
-  .app-shell.experiment-mode .floating-burger{
-    display:flex !important;
-    position:fixed !important;
-    left:32px !important;
-    top:24px !important;
-    width:40px !important;
-    height:40px !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
-    background:transparent !important;
-    background-image:none !important;
-    box-shadow:none !important;
-    backdrop-filter:none !important;
-    -webkit-backdrop-filter:none !important;
-    align-items:center !important;
-    justify-content:flex-start !important;
-  }
-
-  .app-shell.experiment-mode }
-
-/* Approved mobile position remains untouched. */
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    left:30.5px !important;
-    top:4px !important;
-  }
-}
-
-/* Opening the contextual sidebar always hides the experiment trigger. */
+/* Hide trigger while contextual sidebar is open */
 body.sidebar-visible .app-shell.experiment-mode .floating-burger{
   display:none !important;
   visibility:hidden !important;
