@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Digital Physics Laboratory</title>
   <style>
+
+
+
 *{box-sizing:border-box}
 
 :root{
@@ -363,11 +366,290 @@ button{-webkit-tap-highlight-color:transparent}
   *{scroll-behavior:auto!important;transition:none!important}
 }
 
-  </style>
+
+/* ===== Approved UX behavior ===== */
+:root{
+  --sidebar-width:248px;
+}
+
+.app-shell{
+  transition:grid-template-columns .22s ease;
+}
+
+.app-shell.experiment-mode .topbar{
+  display:none !important;
+}
+
+.app-shell.experiment-mode{
+  padding-top:22px;
+}
+
+.sidebar-head{
+  align-items:center;
+}
+
+.sidebar-home{
+  flex:1;
+  min-width:0;
+  border:0;
+  border-radius:10px;
+  padding:9px 10px;
+  background:var(--accent-soft);
+  color:#4d56c8;
+  font-weight:700;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar-close{
+  display:none;
+}
+
+.sidebar-collapse{
+  display:none;
+}
+
+/* Floating burger appears only when the sidebar is fully collapsed */
+.floating-burger{
+  position:fixed;
+  z-index:60;
+  left:20px;
+  top:20px;
+  width:46px;
+  height:46px;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:14px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 10px 28px rgba(45,38,90,.18);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.floating-burger span{
+  display:block;
+  width:19px;
+  height:2px;
+  margin:3px 0;
+  border-radius:999px;
+  background:var(--accent);
+}
+
+.floating-burger-inner{
+  display:grid;
+  gap:2px;
+}
+
+.catalog-empty{
+  padding:8px 14px 12px;
+  color:#a1a5b5;
+  font-size:13px;
+}
+
+/* Current experiment highlight */
+.nav-experiment.active{
+  background:linear-gradient(135deg,rgba(89,100,223,.13),rgba(207,111,166,.11));
+  color:#4f58c9;
+  box-shadow:inset 3px 0 0 var(--accent);
+}
+
+.nav-experiment.active .nav-experiment-title{
+  font-weight:700;
+}
+
+.nav-section.active-section > .nav-section-button{
+  background:rgba(246,247,255,.9);
+  color:#4f58c9;
+}
+
+/* Desktop behavior */
+@media(min-width:1050px){
+  .app-shell{
+    grid-template-columns:var(--sidebar-width) minmax(0,1fr);
+  }
+
+  .app-shell.menu-collapsed{
+    grid-template-columns:0 minmax(0,1fr);
+    column-gap:0;
+  }
+
+  .app-shell.menu-collapsed .sidebar{
+    opacity:0;
+    transform:translateX(calc(-100% - 24px));
+    pointer-events:none;
+  }
+
+  .app-shell.menu-collapsed .floating-burger{
+    display:flex;
+  }
+
+  .sidebar{
+    transition:opacity .18s ease, transform .22s ease;
+  }
+
+  .experiment-stage{
+    transition:margin-left .22s ease;
+  }
+}
+
+/* Tablet / mobile: sidebar becomes an overlay, burger remains available in experiment mode */
+@media(max-width:1049px){
+  .floating-burger{
+    display:none;
+  }
+
+  .app-shell.experiment-mode .floating-burger{
+    display:flex;
+  }
+
+  .app-shell.experiment-mode .menu-button{
+    display:none !important;
+  }
+
+  .sidebar-close{
+    display:block;
+  }
+}
+
+@media(max-width:700px){
+  .app-shell.experiment-mode{
+    padding-top:10px;
+  }
+
+  .floating-burger{
+    left:14px;
+    top:14px;
+    width:44px;
+    height:44px;
+  }
+}
+
+
+
+
+/* ===== Mobile experiment chrome: burger + home only ===== */
+.experiment-home-fab{
+  position:fixed;
+  z-index:61;
+  right:20px;
+  top:20px;
+  width:46px;
+  height:46px;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:14px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 10px 28px rgba(45,38,90,.18);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  display:none;
+  place-items:center;
+  cursor:pointer;
+  color:#fff;
+}
+
+.experiment-home-fab .mini-brand-mark{
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-family:Georgia,serif;
+  font-size:21px;
+  font-style:italic;
+  background:linear-gradient(135deg,#7f6ee9,#d76fa5);
+}
+
+/* In experiment mode, show only the two floating controls */
+.app-shell.experiment-mode .experiment-home-fab{
+  display:grid;
+}
+
+@media(max-width:1049px){
+  /* Force menu completely off-screen after experiment selection */
+  .app-shell.experiment-mode .sidebar:not(.open){
+    transform:translateX(-105%) !important;
+    opacity:0;
+    pointer-events:none;
+  }
+
+  .app-shell.experiment-mode .sidebar.open{
+    transform:translateX(0) !important;
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .app-shell.experiment-mode .sidebar-backdrop:not(.open){
+    opacity:0;
+    pointer-events:none;
+  }
+
+  .app-shell.experiment-mode .floating-burger{
+    display:flex;
+  }
+}
+
+@media(max-width:700px){
+  .experiment-home-fab{
+    right:14px;
+    top:14px;
+    width:44px;
+    height:44px;
+  }
+
+  .experiment-home-fab .mini-brand-mark{
+    width:30px;
+    height:30px;
+    font-size:20px;
+  }
+}
+
+
+
+/* ===== Single-menu UX: no duplicated central catalog ===== */
+.welcome{
+  display:grid;
+  align-content:center;
+}
+
+.welcome-glass{
+  margin-bottom:0;
+}
+
+/* On mobile home screen the sidebar is the only catalog and opens by default. */
+@media(max-width:1049px){
+  .app-shell:not(.experiment-mode) .sidebar.open{
+    transform:translateX(0) !important;
+    opacity:1;
+    pointer-events:auto;
+  }
+}
+
+
+
+[hidden]{display:none!important;}
+
+.app-shell.experiment-mode #welcomeScreen{
+  display:none !important;
+}
+
+</style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
+
+
+
+  <div class="app-shell" id="appShell">
+    <button class="experiment-home-fab" id="experimentHomeFab" type="button" aria-label="На главную">
+      <span class="mini-brand-mark">φ</span>
+    </button>
+
+    <button class="floating-burger" id="floatingBurger" type="button" aria-label="Открыть меню">
+      <span class="floating-burger-inner"><span></span><span></span><span></span></span>
+    </button>
+    <header class="topbar" id="topbar">
       <button class="menu-button" id="menuButton" aria-label="Открыть меню" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -385,12 +667,10 @@ button{-webkit-tap-highlight-color:transparent}
 
     <aside class="sidebar" id="sidebar" aria-label="Навигация по лаборатории">
       <div class="sidebar-head">
-        <div>
-          <div class="sidebar-kicker">Digital Physics Laboratory</div>
-          <div class="sidebar-title">Эксперименты</div>
-        </div>
+        <button class="sidebar-home" id="homeButton" type="button">← На главную</button>
         <button class="sidebar-close" id="sidebarClose" aria-label="Закрыть меню">×</button>
       </div>
+
       <nav class="nav" id="experimentNav"></nav>
     </aside>
 
@@ -404,30 +684,6 @@ button{-webkit-tap-highlight-color:transparent}
             и сразу смотри, как меняется движение.
           </p>
         </div>
-
-        <div class="catalog-card">
-          <div class="catalog-section">
-            <button class="catalog-section-button" type="button" data-catalog-toggle="mechanics">
-              <span>Механика</span><span class="catalog-chevron">⌄</span>
-            </button>
-            <div class="catalog-items open" data-catalog-items="mechanics">
-              <button type="button" class="catalog-experiment" data-preview-experiment="ballistics">
-                Баллистика
-              </button>
-            </div>
-          </div>
-
-          <div class="catalog-section">
-            <button class="catalog-section-button" type="button" data-catalog-toggle="magnetism">
-              <span>Магнетизм</span><span class="catalog-chevron">⌄</span>
-            </button>
-            <div class="catalog-items open" data-catalog-items="magnetism">
-              <button type="button" class="catalog-experiment" data-preview-experiment="charged-particle-3d">
-                Заряженная частица в электрическом и магнитном полях
-              </button>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section class="experiment-stage" id="experimentStage" hidden>
@@ -436,149 +692,256 @@ button{-webkit-tap-highlight-color:transparent}
     </main>
   </div>
 
-  <script>
-  const catalog = [
-    {
-      id:"mechanics", title:"Механика", icon:"↗",
-      experiments:[{id:"ballistics",title:"Движение тела под углом",subtitle:"Баллистика"}]
-    },
-    {
-      id:"molecular", title:"Молекулярная физика", icon:"◌", experiments:[]
-    },
-    {
-      id:"electrostatics", title:"Электростатика", icon:"±", experiments:[]
-    },
-    {
-      id:"magnetism", title:"Магнетизм", icon:"⊙",
-      experiments:[{id:"charged-particle-3d",title:"Заряженная частица в E и B",subtitle:"Сила Лоренца"}]
-    },
-    {
-      id:"oscillations", title:"Колебания и волны", icon:"∿", experiments:[]
-    },
-    {
-      id:"optics", title:"Оптика", icon:"◇", experiments:[]
+  
+
+<script>
+
+
+
+
+const catalog = [
+  {
+    id:"kinematics",
+    title:"Кинематика",
+    icon:"↗",
+    experiments:[
+      { id:"ballistics", title:"Баллистика", subtitle:"Движение тела под углом" }
+    ]
+  },
+  { id:"dynamics", title:"Динамика", icon:"→", experiments:[] },
+  { id:"statics", title:"Статика", icon:"⌁", experiments:[] },
+  { id:"conservation", title:"Законы сохранения", icon:"Σ", experiments:[] },
+  { id:"molecular", title:"Молекулярная физика", icon:"◌", experiments:[] },
+  { id:"thermodynamics", title:"Термодинамика", icon:"△", experiments:[] },
+  { id:"electrostatics", title:"Электростатика", icon:"±", experiments:[] },
+  { id:"electrodynamics", title:"Электродинамика", icon:"ϟ", experiments:[] },
+  {
+    id:"magnetism",
+    title:"Магнетизм",
+    icon:"⊙",
+    experiments:[
+      {
+        id:"charged-particle-3d",
+        title:"Заряженная частица в электрическом и магнитном полях",
+        subtitle:"Сила Лоренца"
+      }
+    ]
+  },
+  { id:"oscillations", title:"Колебания и волны", icon:"∿", experiments:[] },
+  { id:"optics", title:"Оптика", icon:"◇", experiments:[] },
+  { id:"quantum", title:"Квантовая физика", icon:"h", experiments:[] }
+];
+
+const appShell = document.getElementById("appShell");
+const nav = document.getElementById("experimentNav");
+const sidebar = document.getElementById("sidebar");
+const backdrop = document.getElementById("sidebarBackdrop");
+const menuButton = document.getElementById("menuButton");
+const sidebarClose = document.getElementById("sidebarClose");
+const floatingBurger = document.getElementById("floatingBurger");
+const experimentHomeFab = document.getElementById("experimentHomeFab");
+const homeButton = document.getElementById("homeButton");
+const brandHome = document.getElementById("brandHome");
+const welcome = document.getElementById("welcomeScreen");
+const stage = document.getElementById("experimentStage");
+const mount = document.getElementById("experimentMount");
+
+let currentExperimentId = null;
+let currentSectionId = null;
+
+function findExperiment(id){
+  for(const section of catalog){
+    const exp = section.experiments.find(e => e.id === id);
+    if(exp) return { section, exp };
+  }
+  return null;
+}
+
+function buildNavigation(){
+  nav.innerHTML = "";
+
+  for(const section of catalog){
+    const wrap = document.createElement("section");
+    wrap.className = "nav-section";
+    wrap.dataset.sectionId = section.id;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "nav-section-button";
+    button.innerHTML = `
+      <span class="nav-section-left">
+        <span class="nav-section-icon">${section.icon}</span>
+        <span>${section.title}</span>
+      </span>
+      <span class="nav-chevron">›</span>
+    `;
+
+    const expWrap = document.createElement("div");
+    expWrap.className = "nav-experiments";
+
+    const inner = document.createElement("div");
+    inner.className = "nav-experiments-inner";
+
+    if(section.experiments.length){
+      for(const exp of section.experiments){
+        const expButton = document.createElement("button");
+        expButton.type = "button";
+        expButton.className = "nav-experiment";
+        expButton.dataset.experimentId = exp.id;
+        expButton.innerHTML = `
+          <span class="nav-experiment-title">${exp.title}</span>
+          <span class="nav-experiment-subtitle">${exp.subtitle || ""}</span>
+        `;
+        expButton.addEventListener("click", () => openExperiment(exp.id));
+        inner.appendChild(expButton);
+      }
+    } else {
+      const empty = document.createElement("div");
+      empty.className = "nav-empty";
+      empty.textContent = "Эксперименты добавим позже";
+      inner.appendChild(empty);
     }
-  ];
 
-  const nav=document.getElementById("experimentNav");
-  const sidebar=document.getElementById("sidebar");
-  const backdrop=document.getElementById("sidebarBackdrop");
-  const menuButton=document.getElementById("menuButton");
-  const closeButton=document.getElementById("sidebarClose");
-  const brandHome=document.getElementById("brandHome");
-  const welcome=document.getElementById("welcomeScreen");
-  const stage=document.getElementById("experimentStage");
-  const mount=document.getElementById("experimentMount");
-  const subtitle=document.getElementById("pageSubtitle");
+    button.addEventListener("click", () => {
+      const willOpen = !wrap.classList.contains("open");
 
-  function openSidebar(){
+      document.querySelectorAll(".nav-section").forEach(sectionEl => {
+        if(sectionEl !== wrap && !sectionEl.classList.contains("active-section")){
+          sectionEl.classList.remove("open");
+        }
+      });
+
+      wrap.classList.toggle("open", willOpen);
+    });
+
+    expWrap.appendChild(inner);
+    wrap.append(button, expWrap);
+    nav.appendChild(wrap);
+  }
+}
+
+function syncActiveNavigation(){
+  document.querySelectorAll(".nav-section").forEach(sectionEl => {
+    const isActiveSection = sectionEl.dataset.sectionId === currentSectionId;
+    sectionEl.classList.toggle("active-section", isActiveSection);
+
+    if(isActiveSection){
+      sectionEl.classList.add("open");
+    }
+  });
+
+  document.querySelectorAll(".nav-experiment").forEach(button => {
+    button.classList.toggle("active", button.dataset.experimentId === currentExperimentId);
+  });
+}
+
+function showSidebar(){
+  if(window.innerWidth >= 1050){
+    appShell.classList.remove("menu-collapsed");
+    syncActiveNavigation();
+  }else{
     sidebar.classList.add("open");
     backdrop.classList.add("open");
-    menuButton.setAttribute("aria-expanded","true");
+    menuButton?.setAttribute("aria-expanded", "true");
+    syncActiveNavigation();
   }
-  function closeSidebar(){
+}
+
+function hideSidebar(){
+  if(window.innerWidth >= 1050){
+    appShell.classList.add("menu-collapsed");
+  }else{
     sidebar.classList.remove("open");
     backdrop.classList.remove("open");
-    menuButton.setAttribute("aria-expanded","false");
+    menuButton?.setAttribute("aria-expanded", "false");
   }
-  function closeOtherSections(current){
-    document.querySelectorAll(".nav-section").forEach(s=>{if(s!==current)s.classList.remove("open")});
-  }
-  function buildNavigation(){
-    nav.innerHTML="";
-    for(const section of catalog){
-      const wrap=document.createElement("section");
-      wrap.className="nav-section";
-      wrap.dataset.sectionId=section.id;
+}
 
-      const b=document.createElement("button");
-      b.type="button";
-      b.className="nav-section-button";
-      b.innerHTML=`<span class="nav-section-left"><span class="nav-section-icon">${section.icon}</span><span>${section.title}</span></span><span class="nav-chevron">›</span>`;
+function openHome(){
+  currentExperimentId = null;
+  currentSectionId = null;
 
-      const expWrap=document.createElement("div");
-      expWrap.className="nav-experiments";
-      const inner=document.createElement("div");
-      inner.className="nav-experiments-inner";
+  welcome.hidden = false;
+  welcome.style.display = "";
+  stage.hidden = true;
+  welcome.hidden = false;
+  mount.innerHTML = "";
 
-      if(!section.experiments.length){
-        const empty=document.createElement("div");
-        empty.className="nav-empty";
-        empty.textContent="Эксперименты добавим позже";
-        inner.appendChild(empty);
-      } else {
-        for(const exp of section.experiments){
-          const x=document.createElement("button");
-          x.type="button";
-          x.className="nav-experiment";
-          x.dataset.experimentId=exp.id;
-          x.innerHTML=`<span class="nav-experiment-title">${exp.title}</span><span class="nav-experiment-subtitle">${exp.subtitle||""}</span>`;
-          x.addEventListener("click",()=>showPlaceholder(section,exp));
-          inner.appendChild(x);
-        }
-      }
+  appShell.classList.remove("experiment-mode", "menu-collapsed");
+  sidebar.classList.remove("open");
+  backdrop.classList.remove("open");
 
-      expWrap.appendChild(inner);
-      b.addEventListener("click",()=>{
-        const willOpen=!wrap.classList.contains("open");
-        closeOtherSections(wrap);
-        wrap.classList.toggle("open",willOpen);
-      });
-      wrap.append(b,expWrap);
-      nav.appendChild(wrap);
-    }
-  }
-
-  function showPlaceholder(section,exp){
-    document.querySelectorAll(".nav-experiment").forEach(b=>b.classList.toggle("active",b.dataset.experimentId===exp.id));
-    document.querySelectorAll(".nav-section").forEach(s=>s.classList.toggle("open",s.dataset.sectionId===section.id));
-    welcome.hidden=true;stage.hidden=false;
-    subtitle.textContent=`${section.title} — ${exp.title}`;
-    mount.innerHTML=`<div class="placeholder"><div class="placeholder-label">${section.title}</div><h1>${exp.title}</h1><p>Здесь будет открываться интерактивный эксперимент.</p><div class="placeholder-note">Сейчас проверяем оболочку сайта, фон и меню. Следующим шагом подключим сюда готовую физическую модель.</div></div>`;
-    closeSidebar();
-  }
-
-  function openHome(){
-    document.querySelectorAll(".nav-experiment").forEach(b=>b.classList.remove("active"));
-    stage.hidden=true;welcome.hidden=false;mount.innerHTML="";
-    subtitle.textContent="Интерактивные эксперименты по физике";
-  }
-
-  menuButton.addEventListener("click",openSidebar);
-  closeButton.addEventListener("click",closeSidebar);
-  backdrop.addEventListener("click",closeSidebar);
-  brandHome.addEventListener("click",openHome);
-  document.querySelectorAll("[data-open-experiment]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      const id=button.dataset.openExperiment;
-      for(const section of catalog){
-        const exp=section.experiments.find(e=>e.id===id);
-        if(exp) return showPlaceholder(section,exp);
-      }
-    });
+  document.querySelectorAll(".nav-experiment").forEach(el => el.classList.remove("active"));
+  document.querySelectorAll(".nav-section").forEach(el => {
+    el.classList.remove("active-section", "open");
   });
 
+  if(location.hash){
+    history.replaceState(null, "", location.pathname + location.search);
+  }
 
-  buildNavigation();
+  if(window.innerWidth < 1050){
+    sidebar.classList.add("open");
+    backdrop.classList.add("open");
+    menuButton?.setAttribute("aria-expanded", "true");
+  }
+}
 
-  document.querySelectorAll("[data-catalog-toggle]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      const id=button.dataset.catalogToggle;
-      const items=document.querySelector(`[data-catalog-items="${id}"]`);
-      if(items) items.classList.toggle("open");
-    });
-  });
+function openExperiment(id){
+  const found = findExperiment(id);
+  if(!found) return;
 
-  document.querySelectorAll("[data-preview-experiment]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      const id=button.dataset.previewExperiment;
-      for(const section of catalog){
-        const exp=section.experiments.find(e=>e.id===id);
-        if(exp){ showPlaceholder(section,exp); break; }
-      }
-    });
-  });
+  currentExperimentId = id;
+  currentSectionId = found.section.id;
+  syncActiveNavigation();
 
-  </script>
+  welcome.hidden = true;
+  welcome.style.display = "none";
+  stage.hidden = false;
+  stage.style.display = "";
+  appShell.classList.add("experiment-mode");
+  mount.innerHTML = `
+    <div class="placeholder">
+      <div class="placeholder-label">${found.section.title}</div>
+      <h1>${found.exp.title}</h1>
+      <p>Здесь будет открываться интерактивный эксперимент.</p>
+    </div>
+  `;
+
+  hideSidebar();
+  history.replaceState(null, "", `#${id}`);
+}
+
+menuButton?.addEventListener("click", showSidebar);
+floatingBurger.addEventListener("click", showSidebar);
+experimentHomeFab.addEventListener("click", openHome);
+sidebarClose?.addEventListener("click", hideSidebar);
+backdrop.addEventListener("click", hideSidebar);
+homeButton.addEventListener("click", openHome);
+brandHome?.addEventListener("click", openHome);
+
+
+
+buildNavigation();
+
+function openInitialMenu(){
+  if(window.innerWidth < 1050 && !location.hash){
+    sidebar.classList.add("open");
+    backdrop.classList.add("open");
+    menuButton?.setAttribute("aria-expanded", "true");
+  }
+}
+
+openInitialMenu();
+
+const initialId = location.hash.replace("#", "");
+if(initialId && findExperiment(initialId)){
+  openExperiment(initialId);
+}
+
+
+
+
+</script>
 </body>
 </html>
