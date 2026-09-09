@@ -378,59 +378,12 @@ button{-webkit-tap-highlight-color:transparent}
   align-items:center;
 }
 
-.sidebar-home{
-  flex:1;
-  min-width:0;
-  border:0;
-  border-radius:10px;
-  padding:9px 10px;
-  background:var(--accent-soft);
-  color:#4d56c8;
-  font-weight:700;
-  text-align:left;
-  cursor:pointer;
-}
-
 .sidebar-close{
   display:none;
 }
 
 .sidebar-collapse{
   display:none;
-}
-
-/* Floating burger appears only when the sidebar is fully collapsed */
-.floating-burger{
-  position:fixed;
-  z-index:60;
-  left:20px;
-  top:20px;
-  width:46px;
-  height:46px;
-  border:1px solid rgba(255,255,255,.55);
-  border-radius:14px;
-  background:rgba(255,255,255,.92);
-  box-shadow:0 10px 28px rgba(45,38,90,.18);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-}
-
-.floating-burger span{
-  display:block;
-  width:19px;
-  height:2px;
-  margin:3px 0;
-  border-radius:999px;
-  background:var(--accent);
-}
-
-.floating-burger-inner{
-  display:grid;
-  gap:2px;
 }
 
 .catalog-empty{
@@ -471,12 +424,7 @@ button{-webkit-tap-highlight-color:transparent}
     transform:translateX(calc(-100% - 24px));
     pointer-events:none;
   }
-
-  .app-shell.menu-collapsed .floating-burger{
-    display:flex;
-  }
-
-  .sidebar{
+.sidebar{
     transition:opacity .18s ease, transform .22s ease;
   }
 
@@ -487,19 +435,7 @@ button{-webkit-tap-highlight-color:transparent}
 
 /* Tablet / mobile: sidebar becomes an overlay, burger remains available in experiment mode */
 @media(max-width:1049px){
-  .floating-burger{
-    display:none;
-  }
-
-  .app-shell.experiment-mode .floating-burger{
-    display:flex;
-  }
-
-  .app-shell.experiment-mode .menu-button{
-    display:none !important;
-  }
-
-  .sidebar-close{
+.sidebar-close{
     display:block;
   }
 }
@@ -516,86 +452,6 @@ button{-webkit-tap-highlight-color:transparent}
     height:44px;
   }
 }
-
-
-
-
-/* ===== Mobile experiment chrome: burger + home only ===== */
-.experiment-home-fab{
-  position:fixed;
-  z-index:61;
-  right:20px;
-  top:20px;
-  width:46px;
-  height:46px;
-  border:1px solid rgba(255,255,255,.55);
-  border-radius:14px;
-  background:rgba(255,255,255,.92);
-  box-shadow:0 10px 28px rgba(45,38,90,.18);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  display:none;
-  place-items:center;
-  cursor:pointer;
-  color:#fff;
-}
-
-.experiment-home-fab .mini-brand-mark{
-  width:32px;
-  height:32px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
-  font-family:Georgia,serif;
-  font-size:21px;
-  font-style:italic;
-  background:linear-gradient(135deg,#7f6ee9,#d76fa5);
-}
-
-/* In experiment mode, show only the two floating controls */
-.app-shell.experiment-mode .experiment-home-fab{
-  display:grid;
-}
-
-@media(max-width:1049px){
-  /* Force menu completely off-screen after experiment selection */
-  .app-shell.experiment-mode .sidebar:not(.open){
-    transform:translateX(-105%) !important;
-    opacity:0;
-    pointer-events:none;
-  }
-
-  .app-shell.experiment-mode .sidebar.open{
-    transform:translateX(0) !important;
-    opacity:1;
-    pointer-events:auto;
-  }
-
-  .app-shell.experiment-mode .sidebar-backdrop:not(.open){
-    opacity:0;
-    pointer-events:none;
-  }
-
-  .app-shell.experiment-mode .floating-burger{
-    display:flex;
-  }
-}
-
-@media(max-width:700px){
-  .experiment-home-fab{
-    right:14px;
-    top:14px;
-    width:44px;
-    height:44px;
-  }
-
-  .experiment-home-fab .mini-brand-mark{
-    width:30px;
-    height:30px;
-    font-size:20px;
-  }
-}
-
 
 
 /* ===== Single-menu UX: no duplicated central catalog ===== */
@@ -618,7 +474,6 @@ button{-webkit-tap-highlight-color:transparent}
 }
 
 
-
 [hidden]{display:none!important;}
 
 .app-shell.experiment-mode #welcomeScreen{
@@ -626,108 +481,7 @@ button{-webkit-tap-highlight-color:transparent}
 }
 
 
-
-/* ===== Cleaner sidebar header and burger ===== */
-.sidebar-head{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  min-height:40px;
-}
-
-.sidebar-home{
-  display:none !important;
-}
-
-.floating-burger{
-  width:48px;
-  height:48px;
-  padding:0;
-  border:1px solid rgba(255,255,255,.72);
-  border-radius:16px;
-  background:rgba(255,255,255,.94);
-  box-shadow:
-    0 10px 28px rgba(45,38,90,.16),
-    inset 0 1px 0 rgba(255,255,255,.9);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  transition:transform .16s ease, box-shadow .16s ease;
-}
-
-.floating-burger:hover{
-  transform:translateY(-1px);
-  box-shadow:
-    0 12px 30px rgba(45,38,90,.19),
-    inset 0 1px 0 rgba(255,255,255,.95);
-}
-
-.floating-burger:active{
-  transform:scale(.98);
-}
-
-.floating-burger-inner{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-}
-
-.floating-burger-inner > span{
-  display:block;
-  width:20px;
-  height:2px;
-  margin:0;
-  border-radius:999px;
-  background:linear-gradient(90deg,#5964df,#c96fa8);
-}
-
-@media(max-width:700px){
-  .floating-burger{
-    width:46px;
-    height:46px;
-    border-radius:15px;
-  }
-}
-
-
-
-/* ===== Burger behavior fix ===== */
-.floating-burger-inner{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:4px !important;
-  width:22px;
-  height:18px;
-}
-
-.floating-burger-inner > span{
-  display:block !important;
-  flex:0 0 auto !important;
-  width:20px !important;
-  height:2px !important;
-  min-height:2px !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:999px !important;
-  background:linear-gradient(90deg,#5964df,#c96fa8) !important;
-}
-
-/* Burger disappears whenever the actual sidebar is open */
-body.sidebar-visible .floating-burger{
-  display:none !important;
-}
-
-
-
 /* ===== Brand lives inside the sidebar ===== */
-.experiment-home-fab{
-  display:none !important;
-}
-
 .sidebar-head{
   display:block;
   min-height:0;
@@ -786,352 +540,7 @@ body.sidebar-visible .floating-burger{
   color:var(--muted);
 }
 
-/* ===== Give experiment mode a dedicated top control row ===== */
-.app-shell.experiment-mode .main{
-  position:relative;
-}
-
-.app-shell.experiment-mode .floating-burger{
-  position:fixed;
-  top:16px;
-  left:16px;
-  z-index:80;
-}
-
-/* Reserve real vertical space so the burger never overlaps experiment content */
-.app-shell.experiment-mode .experiment-stage{
-  padding-top:76px !important;
-}
-
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    top:12px;
-    left:12px;
-  }
-
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:68px !important;
-  }
-}
-
-/* Burger disappears while the contextual sidebar is open */
-body.sidebar-visible .floating-burger{
-  display:none !important;
-}
-
-
-/* Final mobile spacing tweak */
-@media(max-width:700px){
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:56px !important;
-  }
-}
-
-
-/* Final brand + background refinements */
-.sidebar-brand-mark{
-  font-size:18px !important;
-  font-weight:600 !important;
-  font-family:Georgia, "Times New Roman", serif;
-  line-height:1 !important;
-}
-
-/* Add a soft peach glow in the right corner without changing the approved gradient */
-html,body{
-  background:
-    radial-gradient(circle at 96% 6%, rgba(255,190,150,.34), transparent 24%),
-    radial-gradient(circle at 15% 10%, rgba(255,255,255,.42), transparent 28%),
-    radial-gradient(circle at 86% 18%, rgba(255,255,255,.18), transparent 24%),
-    linear-gradient(135deg,var(--bg-a) 0%,var(--bg-b) 52%,var(--bg-c) 100%) !important;
-  background-attachment:fixed !important;
-}
-
-
-/* Delicate angle-style phi */
-.sidebar-brand-mark{
-  font-family:"Times New Roman", Georgia, serif !important;
-  font-size:18px !important;
-  font-weight:400 !important;
-  font-style:italic !important;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:geometricPrecision;
-}
-
-
-/* Larger delicate phi inside the same logo square */
-.sidebar-brand-mark{
-  font-size:29px !important;
-  font-weight:400 !important;
-  font-style:italic !important;
-  line-height:1 !important;
-}
-
-
-
-
 .brand-mark,.sidebar-brand-mark{display:none !important;}
-.phi-logo{
-  flex:0 0 38px !important;
-  width:38px !important;
-  height:38px !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  margin:0 !important;
-  padding:0 0 5px 0 !important;
-  font-family:"Times New Roman",Georgia,serif !important;
-  font-size:29px !important;
-  font-weight:400 !important;
-  font-style:italic !important;
-  line-height:1 !important;
-  letter-spacing:0 !important;
-  color:#fff !important;
-  border-radius:13px !important;
-  background:
-    radial-gradient(circle at 92% 8%,
-      rgba(214,128,126,.92) 0%,
-      rgba(211,119,145,.72) 22%,
-      transparent 48%),
-    linear-gradient(135deg,#5964df 0%,#9b70cf 50%,#c96fa8 100%) !important;
-  box-shadow:0 8px 18px rgba(89,100,223,.22) !important;
-}
-
-
-
-/* EXPERIMENT: burger is a control embedded into the experiment panel, not its own tile */
-.app-shell.experiment-mode .floating-burger{
-  width:40px !important;
-  height:40px !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  background-image:none !important;
-  box-shadow:none !important;
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-  filter:none !important;
-}
-
-/* Keep only the three ordinary parallel lines */
-.app-shell.experiment-mode .floating-burger-inner{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:5px !important;
-  width:40px !important;
-  height:40px !important;
-}
-.app-shell.experiment-mode .floating-burger-inner > span{
-  display:block !important;
-  flex:0 0 2px !important;
-  width:21px !important;
-  height:2px !important;
-  min-height:2px !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:999px !important;
-  background:#5964df !important;
-  background-image:none !important;
-  box-shadow:none !important;
-}
-
-/* SAME φ logo everywhere */
-.phi-logo{
-  flex:0 0 38px !important;
-  width:38px !important;
-  height:38px !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  margin:0 !important;
-  padding:0 0 5px 0 !important;
-  font-family:"Times New Roman",Georgia,serif !important;
-  font-size:29px !important;
-  font-weight:400 !important;
-  font-style:italic !important;
-  line-height:1 !important;
-  letter-spacing:0 !important;
-  text-align:center !important;
-  color:#fff !important;
-  border-radius:13px !important;
-  background:
-    radial-gradient(circle at 92% 8%,
-      rgba(214,128,126,.92) 0%,
-      rgba(211,119,145,.72) 22%,
-      transparent 48%),
-    linear-gradient(135deg,#5964df 0%,#9b70cf 50%,#c96fa8 100%) !important;
-  box-shadow:0 8px 18px rgba(89,100,223,.22) !important;
-  transform:none !important;
-}
-
-
-
-.app-shell.experiment-mode .floating-burger{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  width:40px !important;
-  height:40px !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  background-image:none !important;
-  box-shadow:none !important;
-}
-
-.app-shell.experiment-mode .floating-burger::before,
-.app-shell.experiment-mode .floating-burger::after,
-.app-shell.experiment-mode .floating-burger-inner::before,
-.app-shell.experiment-mode .floating-burger-inner::after{
-  content:none !important;
-  display:none !important;
-}
-
-.app-shell.experiment-mode .floating-burger-inner{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:5px !important;
-  width:24px !important;
-  height:24px !important;
-  border:0 !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  box-shadow:none !important;
-}
-
-.app-shell.experiment-mode .floating-burger-inner > span{
-  display:block !important;
-  position:static !important;
-  width:21px !important;
-  height:2px !important;
-  min-height:2px !important;
-  flex:0 0 2px !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:999px !important;
-  background:#5964df !important;
-  background-image:none !important;
-  box-shadow:none !important;
-  transform:none !important;
-}
-
-
-
-body.sidebar-visible .app-shell.experiment-mode .floating-burger,
-body.sidebar-visible .app-shell.experiment-mode .floating-burger-inner{
-  display:none !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-
-
-/* Experiment menu button alignment — aligned with experiment text */
-.app-shell.experiment-mode .floating-burger{
-  left:24px !important;
-  top:14px !important;
-}
-
-.app-shell.experiment-mode .experiment-stage{
-  padding-top:48px !important;
-}
-
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    left:20px !important;
-    top:12px !important;
-  }
-
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:44px !important;
-  }
-}
-
-
-/* Experiment hamburger — align the actual three lines with experiment text */
-.app-shell.experiment-mode .floating-burger{
-  left:14.5px !important; /* 14.5 + 9.5px inner inset = 24px text edge */
-  top:12px !important;
-}
-
-/* Bring experiment heading/content closer to the hamburger */
-.app-shell.experiment-mode .experiment-stage{
-  padding-top:40px !important;
-}
-
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    left:10.5px !important; /* 10.5 + 9.5px = 20px mobile text edge */
-    top:10px !important;
-  }
-
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:36px !important;
-  }
-}
-
-
-/* Mobile experiment hamburger — exact text-edge alignment + tighter vertical spacing */
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    left:10.5px !important;
-    top:8px !important;
-  }
-
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:30px !important;
-  }
-}
-
-
-/* Mobile experiment hamburger — move visibly right and closer to heading */
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    left:18px !important;
-    top:8px !important;
-  }
-
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:24px !important;
-  }
-}
-
-
-/* Mobile experiment hamburger — exact alignment with the real text edge */
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    left:24.5px !important;
-    top:8px !important;
-  }
-
-  /* Tighten gap between burger and "Кинематика / Баллистика" */
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:18px !important;
-  }
-}
-
-
-/* Mobile experiment hamburger — visual correction from actual mobile preview */
-@media(max-width:700px){
-  .app-shell.experiment-mode .floating-burger{
-    left:30.5px !important;
-    top:8px !important;
-  }
-
-  .app-shell.experiment-mode .experiment-stage{
-    padding-top:12px !important;
-  }
-}
-
 /* =========================================================
    APPROVED UI CONTRACT — DO NOT OVERRIDE BELOW THIS LINE
    ========================================================= */
@@ -1225,21 +634,7 @@ html,body{
   display:none !important;
 }
 
-.app-shell.experiment-mode .floating-burger-inner{
-  display:flex !important;
-  width:40px !important;
-  height:40px !important;
-  flex-direction:column !important;
-  align-items:flex-start !important;
-  justify-content:center !important;
-  gap:5px !important;
-  border:0 !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  box-shadow:none !important;
-}
-
-.app-shell.experiment-mode .floating-burger-inner > span{
+.app-shell.experiment-mode .app-shell.experiment-mode .floating-burger-inner > span{
   display:block !important;
   width:21px !important;
   height:2px !important;
@@ -1284,36 +679,6 @@ body.sidebar-visible .app-shell.experiment-mode .floating-burger{
   display:none !important;
   visibility:hidden !important;
   pointer-events:none !important;
-}
-
-/* =========================================================
-   APPROVED DESKTOP NAVIGATION FIX
-   ========================================================= */
-
-/* Floating burger belongs ONLY to experiment mode.
-   On the home page the burger lives inside the topbar. */
-@media(min-width:1050px){
-  .app-shell.menu-collapsed:not(.experiment-mode) .floating-burger{
-    display:none !important;
-    visibility:hidden !important;
-    pointer-events:none !important;
-  }
-
-  .app-shell.menu-collapsed:not(.experiment-mode) .topbar .menu-button{
-    display:grid !important;
-  }
-
-  /* When the contextual sidebar is open, its own layout is enough;
-     don't duplicate a burger in the home topbar. */
-  .app-shell:not(.menu-collapsed):not(.experiment-mode) .topbar .menu-button{
-    display:none !important;
-  }
-
-  /* In experiment mode align the three lines with the actual
-     experiment content edge: shell padding + placeholder padding. */
-  .app-shell.experiment-mode .floating-burger{
-    left:calc(clamp(10px,2vw,22px) + clamp(24px,5vw,54px)) !important;
-  }
 }
 
 /* =========================================================
@@ -1375,12 +740,7 @@ body.sidebar-visible .app-shell.experiment-mode .floating-burger{
     justify-content:flex-start !important;
   }
 
-  .app-shell.experiment-mode .floating-burger-inner{
-    width:24px !important;
-    height:24px !important;
-    align-items:flex-start !important;
-  }
-}
+  .app-shell.experiment-mode }
 
 /* Approved mobile position remains untouched. */
 @media(max-width:700px){
