@@ -207,7 +207,7 @@ async function openExperiment(id){
   mount.innerHTML = "";
 
   const moduleMap = {
-    "ballistics": "./experiments/mechanics/ballistics.js",
+    "ballistics": "./experiments/kinematics/ballistics.js",
     "charged-particle-3d": "./experiments/magnetism/charged-particle-3d.js"
   };
 
