@@ -1,3 +1,5 @@
+
+
 document.querySelectorAll(".experiment-home-fab, .sidebar-home, #homeButton").forEach(el => el.remove());
 
 const catalog = [
@@ -207,7 +209,7 @@ async function openExperiment(id){
   mount.innerHTML = "";
 
   const moduleMap = {
-    "ballistics": "./experiments/kinematics/ballistics.js",
+    "ballistics": "./experiments/mechanics/ballistics.js",
     "charged-particle-3d": "./experiments/magnetism/charged-particle-3d.js"
   };
 
