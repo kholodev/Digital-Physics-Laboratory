@@ -1285,3 +1285,33 @@ body.sidebar-visible .app-shell.experiment-mode .floating-burger{
   visibility:hidden !important;
   pointer-events:none !important;
 }
+
+/* =========================================================
+   APPROVED DESKTOP NAVIGATION FIX
+   ========================================================= */
+
+/* Floating burger belongs ONLY to experiment mode.
+   On the home page the burger lives inside the topbar. */
+@media(min-width:1050px){
+  .app-shell.menu-collapsed:not(.experiment-mode) .floating-burger{
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+
+  .app-shell.menu-collapsed:not(.experiment-mode) .topbar .menu-button{
+    display:grid !important;
+  }
+
+  /* When the contextual sidebar is open, its own layout is enough;
+     don't duplicate a burger in the home topbar. */
+  .app-shell:not(.menu-collapsed):not(.experiment-mode) .topbar .menu-button{
+    display:none !important;
+  }
+
+  /* In experiment mode align the three lines with the actual
+     experiment content edge: shell padding + placeholder padding. */
+  .app-shell.experiment-mode .floating-burger{
+    left:calc(clamp(10px,2vw,22px) + clamp(24px,5vw,54px)) !important;
+  }
+}
