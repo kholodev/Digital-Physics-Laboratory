@@ -1,3 +1,6 @@
+
+document.querySelectorAll(".experiment-home-fab, .sidebar-home, #homeButton").forEach(el => el.remove());
+
 const catalog = [
   {
     id:"kinematics",
@@ -166,12 +169,16 @@ function openHome(){
   welcome.hidden = false;
   welcome.style.display = "";
   stage.hidden = true;
-  welcome.hidden = false;
+  stage.style.display = "none";
   mount.innerHTML = "";
 
-  appShell.classList.remove("experiment-mode", "menu-collapsed");
+  appShell.classList.remove("experiment-mode");
+  appShell.classList.add("menu-collapsed");
+
+  document.body.classList.remove("sidebar-visible");
   sidebar.classList.remove("open");
   backdrop.classList.remove("open");
+  menuButton?.setAttribute("aria-expanded", "false");
 
   document.querySelectorAll(".nav-experiment").forEach(el => el.classList.remove("active"));
   document.querySelectorAll(".nav-section").forEach(el => {
@@ -180,15 +187,6 @@ function openHome(){
 
   if(location.hash){
     history.replaceState(null, "", location.pathname + location.search);
-  }
-  document.body.classList.add("sidebar-visible");
-
-  if(window.innerWidth >= 1050){
-    appShell.classList.remove("menu-collapsed");
-  }else{
-    sidebar.classList.add("open");
-    backdrop.classList.add("open");
-    menuButton?.setAttribute("aria-expanded", "true");
   }
 
   syncActiveNavigation();
@@ -272,42 +270,3 @@ if(initialId && findExperiment(initialId)){
 
 
 sidebarBrandHome?.addEventListener("click", openHome);
-
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  function closeContextMenu() {
-    document.body.classList.remove("sidebar-visible");
-    document.querySelector(".sidebar")?.classList.remove("open");
-    document.querySelector(".sidebar-backdrop")?.classList.remove("open");
-    document.querySelector(".backdrop")?.classList.remove("open");
-    document.getElementById("menuButton")?.setAttribute("aria-expanded", "false");
-    document.querySelector(".app-shell")?.classList.add("menu-collapsed");
-  }
-
-  document.getElementById("sidebarBrandHome")?.addEventListener("click", closeContextMenu);
-  document.getElementById("brandHome")?.addEventListener("click", closeContextMenu);
-});
-
-
-
-document.addEventListener("DOMContentLoaded", function(){
-  const home = document.getElementById("sidebarBrandHome");
-  if (!home) return;
-
-  home.addEventListener("click", function(){
-    requestAnimationFrame(function(){
-      document.body.classList.remove("sidebar-visible");
-      document.querySelector(".sidebar")?.classList.remove("open");
-      document.querySelector(".sidebar-backdrop")?.classList.remove("open");
-      document.querySelector(".backdrop")?.classList.remove("open");
-
-      const shell = document.querySelector(".app-shell");
-      shell?.classList.remove("experiment-mode");
-      shell?.classList.add("menu-collapsed");
-
-      document.getElementById("menuButton")?.setAttribute("aria-expanded","false");
-    });
-  });
-});

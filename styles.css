@@ -1131,3 +1131,157 @@ body.sidebar-visible .app-shell.experiment-mode .floating-burger-inner{
     padding-top:12px !important;
   }
 }
+
+/* =========================================================
+   APPROVED UI CONTRACT — DO NOT OVERRIDE BELOW THIS LINE
+   ========================================================= */
+
+/* Approved purple/pink background + peach upper-right glow */
+html,body{
+  background:
+    radial-gradient(circle at 96% 6%, rgba(255,190,150,.34), transparent 24%),
+    radial-gradient(circle at 15% 10%, rgba(255,255,255,.42), transparent 28%),
+    radial-gradient(circle at 86% 18%, rgba(255,255,255,.18), transparent 24%),
+    linear-gradient(135deg,var(--bg-a) 0%,var(--bg-b) 52%,var(--bg-c) 100%) !important;
+  background-attachment:fixed !important;
+}
+
+/* Same φ logo on home and in contextual menu; peach corner restored */
+.phi-logo{
+  flex:0 0 38px !important;
+  width:38px !important;
+  height:38px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+  padding:0 0 5px 0 !important;
+  font-family:"Times New Roman",Georgia,serif !important;
+  font-size:29px !important;
+  font-weight:400 !important;
+  font-style:italic !important;
+  line-height:1 !important;
+  letter-spacing:0 !important;
+  color:#fff !important;
+  border-radius:13px !important;
+  background:
+    radial-gradient(circle at 92% 8%,
+      rgba(214,128,126,.92) 0%,
+      rgba(211,119,145,.72) 22%,
+      transparent 48%),
+    linear-gradient(135deg,#5964df 0%,#9b70cf 50%,#c96fa8 100%) !important;
+  box-shadow:0 8px 18px rgba(89,100,223,.22) !important;
+}
+
+/* Never show the rejected "home" button or right-side experiment logo */
+.sidebar-home,
+#homeButton,
+.experiment-home-fab,
+#experimentHomeFab,
+.mini-brand-mark{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+/* Contextual menu brand is the only home affordance inside sidebar */
+.sidebar-brand-home{
+  display:flex !important;
+}
+
+/* Experiment mode: top home bar disappears */
+.app-shell.experiment-mode .topbar{
+  display:none !important;
+}
+
+/* Experiment burger = ONLY three lines; no tile, no circle, no plaque */
+.app-shell.experiment-mode .floating-burger{
+  display:flex !important;
+  position:absolute !important;
+  z-index:80 !important;
+  width:40px !important;
+  height:40px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  filter:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  transform:none !important;
+}
+
+.app-shell.experiment-mode .floating-burger::before,
+.app-shell.experiment-mode .floating-burger::after,
+.app-shell.experiment-mode .floating-burger-inner::before,
+.app-shell.experiment-mode .floating-burger-inner::after{
+  content:none !important;
+  display:none !important;
+}
+
+.app-shell.experiment-mode .floating-burger-inner{
+  display:flex !important;
+  width:40px !important;
+  height:40px !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  gap:5px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+.app-shell.experiment-mode .floating-burger-inner > span{
+  display:block !important;
+  width:21px !important;
+  height:2px !important;
+  min-height:2px !important;
+  flex:0 0 2px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:999px !important;
+  background:#5964df !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+
+/* The experiment card is the positioning context: burger is visually sewn into it */
+.app-shell.experiment-mode .experiment-stage{
+  position:relative !important;
+  padding-top:42px !important;
+}
+
+/* Desktop/tablet: visible burger edge matches experiment text edge */
+.app-shell.experiment-mode .floating-burger{
+  left:clamp(24px,5vw,54px) !important;
+  top:10px !important;
+}
+
+/* Mobile approved alignment from the accepted preview */
+@media(max-width:700px){
+  .app-shell.experiment-mode .experiment-stage{
+    padding-top:30px !important;
+  }
+
+  .app-shell.experiment-mode .floating-burger{
+    left:30.5px !important;
+    top:4px !important;
+  }
+}
+
+/* Once contextual menu opens, experiment burger disappears completely */
+body.sidebar-visible .app-shell.experiment-mode .floating-burger{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
