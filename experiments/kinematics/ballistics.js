@@ -18,7 +18,11 @@ function ensureStyles() {
 .ballistics-module .value{color:#5964df}
 .ballistics-module input[type=range]{display:block;width:100%;height:24px;accent-color:#5964df}
 .ballistics-module input[type=number]{display:block;width:100%;padding:10px;border:1px solid #d7dce8;border-radius:9px;font-size:15px;background:#fff;color:#202536}
-.ballistics-module .buttons{display:grid;gap:9px;margin-top:22px}
+.ballistics-module .velocity-options{margin-top:20px;padding-top:16px;border-top:1px solid #e7e9f1}
+.ballistics-module .velocity-options-title{margin-bottom:10px;font-size:14px;font-weight:700;color:#202536}
+.ballistics-module .velocity-option{display:flex;align-items:flex-start;gap:9px;margin:9px 0;font-size:13px;line-height:1.35;color:#4f566b;cursor:pointer}
+.ballistics-module .velocity-option input{flex:0 0 auto;margin:2px 0 0;width:16px;height:16px;accent-color:#5964df}
+.ballistics-module .buttons{display:grid;gap:9px;margin-top:18px}
 .ballistics-module button{width:100%;border:0;border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;cursor:pointer;background:#5964df;color:#fff}
 .ballistics-module button.secondary{background:#eef0ff;color:#4d56c8}
 .ballistics-module .status{margin-top:9px;font-size:13px;color:#697086}
@@ -85,6 +89,22 @@ export function mountExperiment(root) {
 <input id="beta" type="range" min="0" max="360" step="1" value="270">
 </div>
 
+<div class="velocity-options">
+<div class="velocity-options-title">Отображение скорости</div>
+<label class="velocity-option">
+<input id="showVelocity" type="checkbox" checked>
+<span>Векторы v₀ и v(t)</span>
+</label>
+<label class="velocity-option">
+<input id="showComponents" type="checkbox">
+<span>Составляющие vₓ и vᵧ</span>
+</label>
+<label class="velocity-option">
+<input id="showVelocitySum" type="checkbox">
+<span>Сложение v = v₀ + gt</span>
+</label>
+</div>
+
 <div class="buttons">
 <button id="startBtn">▶ Запустить</button>
 <button id="motionResetBtn" class="secondary">Сброс движения</button>
@@ -131,6 +151,9 @@ v0Val:byId("v0Val"),
 alphaVal:byId("alphaVal"),
 gVal:byId("gVal"),
 betaVal:byId("betaVal"),
+showVelocity:byId("showVelocity"),
+showComponents:byId("showComponents"),
+showVelocitySum:byId("showVelocitySum"),
 status:byId("status"),
 start:byId("startBtn")
 };
@@ -335,22 +358,37 @@ ctx.stroke();
 ctx.restore();
 }
 
-function drawVectors(){
+function vectorScale(){
+const p=getParams();
+const v=velocity(Math.min(time,groundTime===Infinity?8:groundTime));
+const reference=Math.max(
+Math.abs(p.v0),
+Math.hypot(v.x,v.y),
+Math.abs(p.g*Math.min(time,groundTime===Infinity?8:groundTime)),
+1
+);
+return Math.max(2.2,Math.min(6.5,82/reference));
+}
+
+function drawLabeledArrow(x1,y1,x2,y2,color,label,head=8,dashed=false){
+ctx.save();
+ctx.strokeStyle=color;
+ctx.fillStyle=color;
+ctx.lineWidth=2.2;
+ctx.lineCap="round";
+ctx.lineJoin="round";
+if(dashed)ctx.setLineDash([6,5]);
+drawArrow(x1,y1,x2,y2,head);
+ctx.setLineDash([]);
+ctx.font="bold 12px Arial";
+ctx.fillText(label,x2+6,y2-6);
+ctx.restore();
+}
+
+function drawAccelerationVector(){
 const p=getParams();
 const q=position(0);
-const X=sx(q.x);
-const Y=sy(q.y);
-const L=Math.max(40,Math.min(80,wrap.clientWidth*.08));
-
-ctx.save();
-ctx.strokeStyle="#e08a3e";
-ctx.fillStyle="#e08a3e";
-ctx.lineWidth=2.5;
-drawArrow(X,Y,X+L*Math.cos(p.alpha),Y-L*Math.sin(p.alpha));
-ctx.font="bold 13px Arial";
-ctx.fillText("v₀",X+L*Math.cos(p.alpha)+7,Y-L*Math.sin(p.alpha)-7);
-ctx.restore();
-
+const X=sx(q.x),Y=sy(q.y);
 ctx.save();
 ctx.strokeStyle="#4e9b70";
 ctx.fillStyle="#4e9b70";
@@ -360,6 +398,74 @@ drawArrow(gx,gy,gx+50*Math.cos(p.beta),gy-50*Math.sin(p.beta));
 ctx.font="bold 13px Arial";
 ctx.fillText("g⃗",gx+50*Math.cos(p.beta)+7,gy-50*Math.sin(p.beta)-7);
 ctx.restore();
+}
+
+function drawStandardVelocity(ct,X,Y){
+const p=getParams();
+const scale=vectorScale();
+
+const startX=sx(p.x0),startY=sy(p.y0);
+const v0x=p.v0*Math.cos(p.alpha);
+const v0y=p.v0*Math.sin(p.alpha);
+drawLabeledArrow(
+startX,startY,
+startX+v0x*scale,
+startY-v0y*scale,
+"#e08a3e","v₀"
+);
+
+const v=velocity(ct);
+if(Math.hypot(v.x,v.y)>1e-8){
+drawLabeledArrow(
+X,Y,
+X+v.x*scale,
+Y-v.y*scale,
+"#b35c9e","v(t)"
+);
+}
+}
+
+function drawVelocityComponents(ct,X,Y){
+const v=velocity(ct);
+const scale=vectorScale();
+const endX=X+v.x*scale;
+const endY=Y-v.y*scale;
+
+if(Math.abs(v.x)>1e-8){
+drawLabeledArrow(X,Y,endX,Y,"#3d82c4","vₓ");
+}
+if(Math.abs(v.y)>1e-8){
+drawLabeledArrow(endX,Y,endX,endY,"#d66c86","vᵧ");
+}
+if(Math.hypot(v.x,v.y)>1e-8){
+drawLabeledArrow(X,Y,endX,endY,"#7a59c7","v",8,true);
+}
+}
+
+function drawVelocitySum(ct,X,Y){
+const p=getParams();
+const scale=vectorScale();
+
+const v0x=p.v0*Math.cos(p.alpha);
+const v0y=p.v0*Math.sin(p.alpha);
+const gtx=p.g*Math.cos(p.beta)*ct;
+const gty=p.g*Math.sin(p.beta)*ct;
+
+const midX=X+v0x*scale;
+const midY=Y-v0y*scale;
+const endX=midX+gtx*scale;
+const endY=midY-gty*scale;
+
+if(Math.hypot(v0x,v0y)>1e-8){
+drawLabeledArrow(X,Y,midX,midY,"#e08a3e","v₀");
+}
+if(Math.hypot(gtx,gty)>1e-8){
+drawLabeledArrow(midX,midY,endX,endY,"#4e9b70","gt");
+}
+const v=velocity(ct);
+if(Math.hypot(v.x,v.y)>1e-8){
+drawLabeledArrow(X,Y,endX,endY,"#b35c9e","v",8,true);
+}
 }
 
 function drawBodyAndVelocity(){
@@ -379,18 +485,9 @@ ctx.strokeStyle="#fff";
 ctx.stroke();
 ctx.restore();
 
-const v=velocity(ct);
-const mag=Math.hypot(v.x,v.y);
-if(mag>1e-8){
-ctx.save();
-ctx.strokeStyle="#b35c9e";
-ctx.fillStyle="#b35c9e";
-ctx.lineWidth=2;
-drawArrow(X,Y,X+48*v.x/mag,Y-48*v.y/mag,8);
-ctx.font="bold 12px Arial";
-ctx.fillText("v",X+48*v.x/mag+6,Y-48*v.y/mag-6);
-ctx.restore();
-}
+if(E.showVelocity.checked)drawStandardVelocity(ct,X,Y);
+if(E.showComponents.checked)drawVelocityComponents(ct,X,Y);
+if(E.showVelocitySum.checked)drawVelocitySum(ct,X,Y);
 }
 
 function drawStart(){
@@ -412,7 +509,7 @@ if(!view)return;
 drawGrid();
 drawTrajectory();
 drawStart();
-drawVectors();
+drawAccelerationVector();
 drawBodyAndVelocity();
 
 const end=groundTime===Infinity?8:groundTime;
@@ -492,6 +589,10 @@ draw();
 });
 });
 
+[E.showVelocity,E.showComponents,E.showVelocitySum].forEach(el=>{
+el.addEventListener("change",()=>draw());
+});
+
 E.start.addEventListener("click",start);
 
 byId("motionResetBtn").addEventListener("click",()=>{
@@ -504,6 +605,9 @@ byId("settingsResetBtn").addEventListener("click",()=>{
 running=false;time=0;lastFrame=0;
 E.x0.value=0;E.y0.value=0;E.v0.value=10;
 E.alpha.value=45;E.g.value=9.8;E.beta.value=270;
+E.showVelocity.checked=true;
+E.showComponents.checked=false;
+E.showVelocitySum.checked=false;
 updateLabels();
 E.start.textContent="▶ Запустить";
 calculateTrajectory();draw();
