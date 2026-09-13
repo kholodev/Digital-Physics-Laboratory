@@ -54,7 +54,7 @@ function ensureStyles() {
 export function mountExperiment(root) {
   ensureStyles();
   root.innerHTML = `<div class="ballistics-module"><div class="page">
-<h1>Physics Lab — Движение тела</h1>
+<h1>Балистика. Движение тела под углом в поле силы тяжести</h1>
 <div class="lab-layout">
 <aside class="panel">
 <h2>Параметры</h2>
